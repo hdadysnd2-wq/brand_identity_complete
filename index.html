@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Brand Identity | Gemini Power</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --gold: #c5a059;
+            --black: #121212;
+            --white: #ffffff;
+            --soft-gray: #f9f9f9;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif; 
+            background: linear-gradient(135deg, var(--soft-gray) 0%, #e8e8e8 100%);
+            color: var(--black);
+            margin: 0; 
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 40px auto;
+            background: var(--white);
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border-top: 6px solid var(--gold);
+            border-radius: 8px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 { 
+            font-weight: 300; 
+            letter-spacing: 2px; 
+            color: var(--black);
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: var(--gold);
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .form-group { 
+            display: flex; 
+            gap: 15px; 
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        input { 
+            flex: 1; 
+            min-width: 250px;
+            padding: 16px; 
+            border: 2px solid #e0e0e0; 
+            font-size: 16px; 
+            border-radius: 6px; 
+            outline: none;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        input:focus { 
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .actions { 
+            display: flex; 
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        button { 
+            flex: 1; 
+            min-width: 200px;
+            padding: 16px 24px; 
+            cursor: pointer; 
+            border: none;
+            font-weight: 600; 
+            font-size: 16px; 
+            border-radius: 6px; 
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-gen { 
+            background: linear-gradient(135deg, var(--black) 0%, #2a2a2a 100%);
+            color: white; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn-gen:hover:not(:disabled) { 
+            background: linear-gradient(135deg, #2a2a2a 0%, #444 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-pdf { 
+            background: linear-gradient(135deg, var(--gold) 0%, #b89048 100%);
+            color: white; 
+            display: none;
+            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
+        }
+
+        .btn-pdf:hover {
+            background: linear-gradient(135deg, #b89048 0%, #a68040 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(197, 160, 89, 0.4);
+        }
+
+        #output { 
+            margin-top: 40px; 
+            padding: 35px; 
+            border: 2px solid #f0f0f0;
+            background: #fefefe; 
+            line-height: 1.9; 
+            display: none;
+            font-size: 17px; 
+            color: #333; 
+            border-radius: 8px;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .loading { 
+            display: none; 
+            text-align: center; 
+            color: var(--gold); 
+            margin: 30px 0; 
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--gold);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        #output strong { 
+            color: var(--gold); 
+            display: block; 
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 22px;
+            border-bottom: 3px solid var(--gold);
+            padding-bottom: 10px;
+            font-weight: 600;
+        }
+
+        #output p {
+            margin: 12px 0;
+            text-align: justify;
+        }
+
+        #output ul {
+            margin: 15px 0;
+            padding-right: 25px;
+        }
+
+        #output li {
+            margin: 10px 0;
+            line-height: 1.7;
+        }
+
+        .error-message {
+            color: #c62828;
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #c62828;
+            margin: 20px 0;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .error-message strong {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: var(--black);
+        }
+
+        .success-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--gold) 0%, #b89048 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            box-shadow: 0 3px 10px rgba(197, 160, 89, 0.3);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-left: 5px solid #2196f3;
+            padding: 18px;
+            margin: 25px 0;
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .tip {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border-left: 5px solid #ffa726;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+                margin: 20px auto;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .form-group {
+                flex-direction: column;
+            }
+
+            input {
+                min-width: 100%;
+            }
+
+            button {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🎨 مصمم الهوية التجارية الذكي</h1>
+        <div class="subtitle">مدعوم بتقنية Gemini AI</div>
+    </div>
+    
+    <div class="form-group">
+        <input id="brand" placeholder="✏️ اسم البراند (مثلاً: لوسين)" autocomplete="off">
+        <input id="industry" placeholder="🏢 المجال (مثلاً: الساعات الفاخرة)" autocomplete="off">
+    </div>
+    
+    <div class="actions">
+        <button class="btn-gen" id="generateBtn" onclick="generateWithGemini()">✨ توليد الدليل الإبداعي</button>
+        <button id="downloadBtn" class="btn-pdf" onclick="downloadPDF()">📥 تحميل الدليل (PDF)</button>
+    </div>
+    
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+        جاري التصميم بواسطة Gemini AI
+    </div>
+    
+    <div id="output"></div>
+    
+    <div class="tip" style="margin-top: 30px;">
+        💡 <strong>نصيحة:</strong> للحصول على أفضل النتائج، كن محدداً في وصف مجال عملك. مثلاً: "ساعات سويسرية فاخرة" بدلاً من "ساعات" فقط.
+    </div>
+</div>
+
+<script>
+// ============================================
+// Gemini API Configuration
+// ============================================
+const API_KEY = "AIzaSyBjOa3C35JoOuZItLcjfDXbV4XTeGPHzZw";
+const API_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent";
+
+async function generateWithGemini() {
+    const brand = document.getElementById('brand').value.trim();
+    const industry = document.getElementById('industry').value.trim();
+    const outputDiv = document.getElementById('output');
+    const loadingDiv = document.getElementById('loading');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const generateBtn = document.getElementById('generateBtn');
+
+    // ============================================
+    // Validation
+    // ============================================
+    if (!brand || !industry) {
+        showError("⚠️ لطفاً، املأ جميع الحقول قبل المتابعة");
+        return;
+    }
+
+    // ============================================
+    // UI State Management
+    // ============================================
+    loadingDiv.style.display = "block";
+    outputDiv.style.display = "none";
+    downloadBtn.style.display = "none";
+    generateBtn.disabled = true;
+
+    // ============================================
+    // Enhanced Prompt for Gemini
+    // ============================================
+    const promptText = `أنت مصمم علامات تجارية عالمي خبير ومتخصص في الهويات البصرية الفاخرة. قم بإنشاء دليل هوية بصرية واستراتيجية احترافي وشامل ومفصّل لبراند "${brand}" في مجال "${industry}".
+
+يجب أن يتضمن الدليل الأقسام التالية بشكل منظم ومفصّل للغاية:
+
+**1. جوهر البراند (Brand Essence)**
+- القيم الجوهرية (3-4 قيم)
+- الشخصية والطابع (اذكر صفات محددة)
+- الوعد للعملاء (رسالة واضحة)
+
+**2. قصة البراند (Brand Story)**
+- قصة إنشائية ملهمة وعاطفية (200 كلمة على الأقل)
+- الرؤية: إلى أين نتجه
+- الرسالة: لماذا نوجد
+- التميز: ما يميزنا عن المنافسين
+
+**3. لوحة الألوان (Color Palette)**
+- اللون الأساسي الأول مع كود Hex (مثلاً: #1A1A1A)
+- اللون الأساسي الثاني مع كود Hex
+- اللون الثانوي الأول مع كود Hex
+- اللون الثانوي الثاني مع كود Hex
+- ألوان إضافية (2-3 ألوان) مع أكواد Hex
+- شرح متى وكيف تستخدم كل لون بالتفصيل
+- أمثلة على التطبيقات
+
+**4. الطباعة والخطوط (Typography)**
+- الخط الرئيسي للعناوين (اذكر اسم الخط)
+- الخط الثانوي للنصوص (اذكر اسم الخط)
+- أحجام الاستخدام المقترحة
+- الأوزان الموصى بها
+- أمثلة على التطبيق
+
+**5. أسلوب التصوير الفوتوغرافي (Photography Style)**
+- نوع التصوير الموصى به (lifestyle, product, editorial, etc.)
+- الإضاءة المفضلة (طبيعية، استوديو، etc.)
+- الألوان والفلاتر
+- المواضيع والأجواء
+- ما يجب تجنبه
+- أمثلة وصفية
+
+**6. نبرة الصوت (Tone of Voice)**
+- كيف يتحدث البراند (رسمي، ودود، فخم، etc.)
+- الكلمات المفتاحية (10 كلمات)
+- عبارات نموذجية (5 أمثلة)
+- ما يجب تجنبه (5 أمثلة)
+- أسلوب الكتابة في وسائل التواصل
+
+**7. العناصر البصرية الإضافية**
+- أنماط الأيقونات (flat, outline, 3D, etc.)
+- الأنماط والزخارف
+- استخدام المساحات البيضاء
+- الشبكات والتخطيطات
+
+**8. التطبيقات العملية**
+- بطاقة العمل
+- ترويسة الأوراق
+- الموقع الإلكتروني
+- وسائل التواصل الاجتماعي
+
+اكتب الدليل باللغة العربية الفصحى بأسلوب راقٍ واحترافي للغاية. استخدم النجوم المزدوجة (**) فقط لتحديد العناوين الرئيسية. اجعل المحتوى غنياً بالتفاصيل والأمثلة العملية. المطلوب على الأقل 1500 كلمة.`;
+
+    try {
+        console.log('🚀 بدء الطلب إلى Gemini API...');
+        console.log('📍 Brand:', brand);
+        console.log('📍 Industry:', industry);
+        
+        // ============================================
+        // API Request Configuration
+        // ============================================
+        const requestBody = {
+            contents: [{
+                parts: [{
+                    text: promptText
+                }]
+            }],
+            generationConfig: {
+                temperature: 0.85,
+                topK: 40,
+                topP: 0.95,
+                maxOutputTokens: 8192,
+            },
+            safetySettings: [
+                {
+                    category: "HARM_CATEGORY_HARASSMENT",
+                    threshold: "BLOCK_NONE"
+                },
+                {
+                    category: "HARM_CATEGORY_HATE_SPEECH",
+                    threshold: "BLOCK_NONE"
+                },
+                {
+                    category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                    threshold: "BLOCK_NONE"
+                },
+                {
+                    category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+                    threshold: "BLOCK_NONE"
+                }
+            ]
+        };
+
+        const url = `${API_ENDPOINT}?key=${API_KEY}`;
+        
+        const response = await fetch(url, {
+            method: "POST",
+            headers: { 
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestBody),
+            mode: 'cors'
+        });
+
+        console.log('📡 حالة الاستجابة:', response.status);
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            console.error('❌ خطأ API:', errorData);
+            
+            if (response.status === 403) {
+                throw new Error('المفتاح غير صالح أو غير مفعّل. تحقق من Google AI Studio.');
+            } else if (response.status === 429) {
+                throw new Error('تجاوزت الحد المسموح. انتظر قليلاً ثم حاول مرة أخرى.');
+            } else {
+                throw new Error(`خطأ HTTP ${response.status}: ${errorData.error?.message || 'خطأ غير معروف'}`);
+            }
+        }
+
+        const data = await response.json();
+        console.log('✅ تم الحصول على البيانات');
+
+        // ============================================
+        // Process Response
+        // ============================================
+        if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+            let rawText = data.candidates[0].content.parts[0].text;
+            console.log('📝 طول النص:', rawText.length, 'حرف');
+            
+            let formattedText = formatBrandGuide(rawText);
+            
+            outputDiv.innerHTML = `
+                <div class="success-badge">✓ تم التوليد بنجاح بواسطة Gemini 1.5 Flash</div>
+                ${formattedText}
+            `;
+            outputDiv.style.display = "block";
+            downloadBtn.style.display = "block";
+            
+            setTimeout(() => {
+                outputDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 150);
+            
+        } else if (data.candidates && data.candidates[0]?.finishReason) {
+            const reason = data.candidates[0].finishReason;
+            console.warn('⚠️ سبب الإنهاء:', reason);
+            
+            if (reason === 'SAFETY') {
+                throw new Error('تم حظر المحتوى بسبب إعدادات الأمان. حاول بمدخلات مختلفة.');
+            } else if (reason === 'MAX_TOKENS') {
+                throw new Error('تم الوصول للحد الأقصى من الكلمات. حاول بطلب أقصر.');
+            } else {
+                throw new Error(`انتهى التوليد بسبب: ${reason}`);
+            }
+        } else {
+            console.error('❌ هيكل غير متوقع:', data);
+            throw new Error('استجابة غير صحيحة من Gemini API');
+        }
+        
+    } catch (error) {
+        console.error("❌ خطأ كامل:", error);
+        
+        let errorMessage = "";
+        
+        if (error.message.includes('Failed to fetch') || error.name === 'TypeError') {
+            errorMessage = `
+                <strong>❌ خطأ في الاتصال</strong><br><br>
+                <strong>السبب المحتمل:</strong> مشكلة CORS عند فتح الملف مباشرة من المجلد.<br><br>
+                
+                <strong>الحل الموصى به:</strong><br>
+                1️⃣ استخدم أحد هذه الطرق لفتح الملف:<br>
+                <br>
+                <strong>الطريقة الأولى - Python (سهلة):</strong><br>
+                • افتح Terminal أو Command Prompt<br>
+                • انتقل لمجلد الملف: <code>cd path/to/folder</code><br>
+                • شغّل: <code>python -m http.server 8000</code><br>
+                • افتح المتصفح على: <code>http://localhost:8000</code><br>
+                <br>
+                <strong>الطريقة الثانية - VS Code:</strong><br>
+                • ثبّت إضافة "Live Server"<br>
+                • اضغط بالزر الأيمن على الملف<br>
+                • اختر "Open with Live Server"<br>
+                <br>
+                <strong>الطريقة الثالثة - استضافة مجانية:</strong><br>
+                • ارفع الملف على GitHub Pages أو Netlify<br>
+                <br>
+                2️⃣ تأكد من اتصالك بالإنترنت<br>
+                3️⃣ جرّب متصفحاً آخر (Chrome أو Firefox)
+            `;
+        } else if (error.message.includes('403')) {
+            errorMessage = `
+                <strong>⚠️ مفتاح API غير صحيح</strong><br><br>
+                تحقق من:<br>
+                • المفتاح مكتوب بشكل صحيح<br>
+                • المفتاح مفعّل في <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a><br>
+                • تم تفعيل Gemini API للمفتاح
+            `;
+        } else if (error.message.includes('429')) {
+            errorMessage = `
+                <strong>⏳ تجاوز حد الاستخدام</strong><br><br>
+                • انتظر 1-2 دقيقة<br>
+                • حاول مرة أخرى<br>
+                • أو استخدم مفتاح API آخر
+            `;
+        } else {
+            errorMessage = `
+                <strong>❌ حدث خطأ</strong><br><br>
+                ${error.message}
+            `;
+        }
+        
+        showError(errorMessage);
+        
+    } finally {
+        loadingDiv.style.display = "none";
+        generateBtn.disabled = false;
+    }
+}
+
+// ============================================
+// Format Brand Guide Function
+// ============================================
+function formatBrandGuide(text) {
+    let formatted = text;
+    
+    // تحويل العناوين
+    formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    
+    // تحسين الأسطر الفارغة
+    formatted = formatted.split('\n\n').map(para => {
+        if (para.trim()) {
+            return '<p>' + para.trim() + '</p>';
+        }
+        return '';
+    }).join('');
+    
+    // تحسين القوائم
+    formatted = formatted.replace(/<p>-\s+(.+?)<\/p>/g, '<li>$1</li>');
+    formatted = formatted.replace(/(<li>.+?<\/li>)+/g, '<ul>$&</ul>');
+    
+    // تحسين الأكواد (Hex codes)
+    formatted = formatted.replace(/#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})/g, 
+        '<span style="background:#f5f5f5;padding:2px 8px;border-radius:3px;font-family:monospace;color:var(--gold);font-weight:bold;">#$1</span>');
+    
+    return formatted;
+}
+
+// ============================================
+// Show Error Function
+// ============================================
+function showError(message) {
+    const outputDiv = document.getElementById('output');
+    outputDiv.innerHTML = `<div class="error-message">${message}</div>`;
+    outputDiv.style.display = "block";
+}
+
+// ============================================
+// Download PDF Function
+// ============================================
+function downloadPDF() {
+    const element = document.getElementById('output');
+    const brandName = document.getElementById('brand').value || 'Brand';
+    
+    const opt = {
+        margin:       [0.5, 0.5],
+        filename:     `${brandName}_Brand_Guidelines_${Date.now()}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+
+    const downloadBtn = document.getElementById('downloadBtn');
+    const originalText = downloadBtn.textContent;
+    downloadBtn.textContent = '⏳ جاري التحميل...';
+    downloadBtn.disabled = true;
+
+    html2pdf().set(opt).from(element).save()
+        .then(() => {
+            downloadBtn.textContent = '✅ تم التحميل!';
+            setTimeout(() => {
+                downloadBtn.textContent = originalText;
+                downloadBtn.disabled = false;
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('PDF Error:', err);
+            downloadBtn.textContent = originalText;
+            downloadBtn.disabled = false;
+            alert('❌ حدث خطأ أثناء إنشاء PDF');
+        });
+}
+
+// ============================================
+// Event Listeners
+// ============================================
+document.getElementById('brand').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        document.getElementById('industry').focus();
+    }
+});
+
+document.getElementById('industry').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        generateWithGemini();
+    }
+});
+
+// ============================================
+// Page Load
+// ============================================
+window.addEventListener('load', () => {
+    console.log('✅ تم تحميل صفحة مصمم الهوية التجارية');
+    console.log('🔑 API Key:', API_KEY ? 'مُعرّف' : 'غير مُعرّف');
+    console.log('📍 Endpoint:', API_ENDPOINT);
+});
+</script>
+
+</body>
+</html>
